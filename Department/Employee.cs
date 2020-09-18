@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Department {
     struct Employee {
@@ -33,21 +31,20 @@ namespace Department {
             Id = ++Count_Emp;
         }
 
-        #endregion
-
-
-
+        #endregion // Constructors
 
 
         #region Methods
 
+        /// <summary>
+        /// Информация о сотруднике
+        /// </summary>
+        /// <returns>Id, Family, Name, Sirname, BirthDate</returns>
         public string returnEmployeeInfo() {
-            return $"{ this.Id } { this.Family } { this.Name } { this.Sirname }, { this.BirthDate.ToShortDateString() } г.р.";
+            return $"| { this.Id } | { this.Family } { this.Name } { this.Sirname } | { this.BirthDate.ToShortDateString() } г.р. |";
         }
 
-        #endregion
-
-
+        #endregion // Methods
 
 
         #region Property
@@ -88,7 +85,8 @@ namespace Department {
             set { this.birthDate_Emp = value; }
         }
 
-        #endregion
+        #endregion // Property
+
 
         #region Fields
         
