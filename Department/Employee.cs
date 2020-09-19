@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace Department {
+namespace Organisation {
     struct Employee {
 
         #region Constructors
@@ -12,12 +13,13 @@ namespace Department {
         /// <param name="family">Фамилия сотрудника</param>
         /// <param name="sirname">Отчество сотрудника</param>
         /// <param name="birthDate">Дата рождения сотрудника</param>
-        public Employee(string name, string family, string sirname, DateTime birthDate) {
+        public Employee(string name, string family, string sirname, DateTime birthDate, List<Project> lstProj) {
             Id = ++Count_Emp;
             this.name_Emp = name;
             this.family_Emp = family;
             this.sirname_Emp = sirname;
             this.birthDate_Emp = birthDate;
+            this.currentProjects_Emp = lstProj;
         }
 
         /// <summary>
@@ -25,9 +27,21 @@ namespace Department {
         /// </summary>
         /// <param name="name">Имя сотрудника</param>
         /// <param name="family">Фамилия сотрудника</param>
+        /// <param name="sirname">Отчество сотрудника</param>
+        /// <param name="birthDate">Дата рождения сотрудника</param>
+        public Employee(string name, string family, string sirname, DateTime birthDate) :
+                        this(name, family, sirname, birthDate, new List<Project>()) {
+            Id = ++Count_Emp;
+        }
+
+        /// <summary>
+        /// Конструктор (3)
+        /// </summary>
+        /// <param name="name">Имя сотрудника</param>
+        /// <param name="family">Фамилия сотрудника</param>
         /// <param name="birthDate">Дата рождения сотрудника</param>
         public Employee(string name, string family, DateTime birthDate) :
-                            this(name, family, String.Empty, birthDate) {
+                            this(name, family, String.Empty, birthDate, new List<Project>()) {
             Id = ++Count_Emp;
         }
 
@@ -36,12 +50,16 @@ namespace Department {
 
         #region Methods
 
+        public void addProject(Project proj) {
+            this.currentProjects_Emp.Add(proj);
+        }
+
         /// <summary>
         /// Информация о сотруднике
         /// </summary>
         /// <returns>Id, Family, Name, Sirname, BirthDate</returns>
         public string returnEmployeeInfo() {
-            return $"| { this.Id } | { this.Family } { this.Name } { this.Sirname } | { this.BirthDate.ToShortDateString() } г.р. |";
+            return $"| { this.Id } | { this.Family } { this.Name } { this.Sirname } | { this.BirthDate.ToShortDateString() } г.р. | { this.CountProjects } |";
         }
 
         #endregion // Methods
@@ -85,15 +103,33 @@ namespace Department {
             set { this.birthDate_Emp = value; }
         }
 
+        /// <summary>
+        /// Возраст
+        /// </summary>
+        public int Age {
+            get {
+                int age = DateTime.Now.Year - this.BirthDate.Year;
+                if (this.BirthDate > DateTime.Now.AddYears(-age)) --age;
+                return age;
+            }
+        }
+
+        public int CountProjects {
+            get {
+                return currentProjects_Emp.Count;
+            }
+        }
+
         #endregion // Property
 
 
         #region Fields
         
-        private string name_Emp;        // имя сотрудника
-        private string family_Emp;      // фамилия сотрудника
-        private string sirname_Emp;     // отчество сотрудника
-        private DateTime birthDate_Emp; // дата рождения сотрудника
+        private string name_Emp;                    // имя сотрудника
+        private string family_Emp;                  // фамилия сотрудника
+        private string sirname_Emp;                 // отчество сотрудника
+        private DateTime birthDate_Emp;             // дата рождения сотрудника
+        private List<Project> currentProjects_Emp;  // текущие проекты сотрудника
 
         private static uint Count_Emp = 0;  // счетчик сотрудников для определения идентификатора сотрудника (Id)
 

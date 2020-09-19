@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Department {
+namespace Organisation {
     struct Project {
 
         #region Constructors
